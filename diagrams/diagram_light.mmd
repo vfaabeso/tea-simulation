@@ -1,0 +1,34 @@
+---
+title: Tea Please Class Diagram (Stage 2)
+---
+classDiagram
+    Simulation "1" *-- "1" Environment
+    Simulation "1" *-- "1" Cup
+    class Simulation{
+        +Environment ENVIRONMENT
+        %% We will create a list of Objects in the future
+        -Cup cup
+        +get_cup() Cup
+        %% this will be about updating separate classes in the future
+        +receive_inputs() void
+        +commit_inputs() void
+        +update(dt : float) void
+    }
+    class Environment{
+        +float COOLING_RATE
+        +float AMBIENT_TEMPERATURE
+    }
+    class Cup{
+        +float VOLUME_MAX
+        -float volume_curr
+        -float temperature_curr
+        -float input_volume
+        -float input_temperature
+        -bool input_done
+        +get_volume_curr() float
+        +get_temperature_curr() float
+        +add_liquid(volume: float, temp: float) void
+        +subtract_liquid(volume: float) void
+        +commit_input() void
+        +update_temperature_curr(dt : float) void
+    }

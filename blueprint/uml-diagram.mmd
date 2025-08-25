@@ -1,0 +1,15 @@
+---
+title: Tea Please Backend 1.0 alpha
+---
+classDiagram
+SimulationKernel "1" *-- "*" SimObject
+SimulationKernel "1" *-- "1" IdHandler
+SimulationKernel "1" *-- "1" Environment
+%% we omit the `Status` class here because it is a result of
+%% some function calls
+SimObject <|-- Entity
+SimObject <|-- TeaState
+Entity <|-- Container
+Entity <|-- Cup
+Entity "1" *-- "1" TeaState
+

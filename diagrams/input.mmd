@@ -1,0 +1,119 @@
+---
+title: Tea Please Class Diagram
+---
+classDiagram
+    class Game{
+        +int NUMBER_OF_ROUNDS
+        +Environment ENVIRONMENT
+        +Player PLAYER
+        -Round current_round
+        -generate_round() Round
+        -set_round(Round round) void
+        %% uses current_round to play
+        -play_round() void
+    }
+    class Environment{
+        +float COOLING_RATE
+        +float SPIGOT_FLOW_RATE
+        +float AMBIENT_TEMPERATURE
+        +int NUMBER_OF_CONTAINERS
+    }
+    class Round{
+        -CustomerOrder CUSTOMER_ORDER
+        -Tray round_tray
+        -int time_elapsed
+        -float evaluation_score
+        %% to set the CUSTOMER_ORDER
+        -generate_order() CustomerOrder
+        -calculate_time_elapsed() float
+        %% uses CUSTOMER_ORDER and round_tray to evaluate
+        +calculate_evaluation_score() float
+    }
+    class CustomerOrder{
+        -List~CupOrder~ CUP_ORDERS
+        -generate_cup_orders() List~CupOrder~
+    }
+    class CupOrder{
+        +float DESIRED_VOLUME
+        +float DESIRED_MIN_TEMP
+        +float DESIRED_MAX_TEMP
+        +float DESIRED_CONCENTRATION
+        +TeaFlavor DESIRED_FLAVOR
+        +CupType DESIRED_CUP
+    }
+    class TeaFlavor{
+        +float TEA_POWER
+        +TeaFlavorEnum TEA_NAME
+    }
+    class TeaFlavorEnum{
+        <<Enumeration>>
+    }
+    class CupType{
+        +float VOLUME_CAPACITY
+        +CupTypeEnum CUP_NAME
+    }
+    class CupTypeEnum{
+        <<Enumeration>>
+    }
+    class Container{
+        +float TEMPERATURE_INIT
+        +float WATER_VOLUME_INIT
+        +float TEA_VOLUME_INIT
+        +float FLOW_RATE
+        -float temperature_curr
+        -float water_volume_curr
+        -float tea_power
+        -float tea_power_released
+        -bool is_heater_toggled
+        -TeaFlavor tea_flavor
+        -calculate_temperature_curr() float
+        -calculate_tea_power() float
+        -calculate_tea_released() float
+        +get_sum_volume() float
+        +get_current_concentration() float
+        %% generalized getter
+        +get_state() Dict
+        %% primitive functions
+        +add_water(float amount) void
+        +add_tea_leaves(float amount) void
+        +toggle_heater() bool
+        +pour_water(float percentage) void
+        +remove_contents() void
+    }
+    class Cup{
+        +float VOLUME_MAX
+        +CupType CUP_TYPE
+        -float volume_curr
+        -float temperature_curr
+        -float tea_power_released
+        -TeaFlavor flavor_curr
+        -calculate_temperature_curr() float
+        %% generalized getter
+        +get_state() Dict
+        +add_tea_water(float volume, float tea_power_amount) void
+        +remove_content(float percentage) void
+        +empty_cup() void
+        +is_cup_overflowing() bool
+        +get_current_concentration() float
+    }
+    class Tray{
+        -List~Cup~ cups
+        +get_state()
+    }
+    class Player{
+        +int TIME_CONTAINER_CUP
+        +int TIME_CONTAINER_SPIGOT
+        -Container item_on_hand
+        +move_container_to_cup(Container, Cup) void
+        +pour_container(Container, Cup) void
+        +move_container_from_cup(Container, Cup) void
+        +move_container_to_spigot(Container) void
+        +move_container_from_spigot(Container) void
+        +fill_container(Container) void
+        +stop_filling_container(Container) void
+        +throw_cup_content(Cup, float volume) void
+        +throw_container_content(Container, float volume) void
+        +serve_tray(Tray) void
+    }
+
+
